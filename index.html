@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Millionaire YT UC Store - Premium UC Delivery</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg1:#07070b;
+      --bg2:#12001f;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.12);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
+      --gold:#ffd700;
+      --orange:#ff6b35;
+      --mint:#00ff88;
+      --danger:#ff4d6d;
+      --shadow: 0 24px 60px rgba(0,0,0,.55);
+      --radius: 20px;
+
+      /* step wallpaper variable */
+      --step-bg: url('bg1.jpg');
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    body{
+      font-family:'Poppins',sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 20% -10%, rgba(255,215,0,.18), transparent 55%),
+        radial-gradient(900px 600px at 85% 15%, rgba(255,107,53,.16), transparent 55%),
+        radial-gradient(900px 600px at 55% 110%, rgba(0,255,136,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+      overflow-x:hidden;
+    }
+
+    /* PRELOADER */
+    .preloader{
+      position:fixed;
+      inset:0;
+      z-index:99999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    .preloader.hide{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .loader-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    }
+    .loader-logo{
+      width:74px;
+      height:74px;
+      background:url('loading.jpg') center/contain no-repeat;
+      filter: drop-shadow(0 18px 45px rgba(0,0,0,.6));
+    }
+    .loader-ring{
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      border:3px solid rgba(255,255,255,.18);
+      border-top-color: rgba(0,255,136,.95);
+      animation: spin .9s linear infinite;
+    }
+    .loader-text{
+      font-family:'Orbitron', monospace;
+      font-weight:800;
+      letter-spacing:.4px;
+      font-size:12px;
+      color: rgba(255,255,255,.75);
+    }
+    @keyframes spin{ to{ transform: rotate(360deg);} }
+
+    .container{
+      max-width:430px;
+      margin:0 auto;
+      padding:18px;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    /* Top card */
+    .top-card{
+      border:1px solid var(--stroke);
+      background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius);
+      padding:18px 16px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .top-card:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 160px at 20% 0%, rgba(255,215,0,.20), transparent 60%),
+                  radial-gradient(600px 160px at 90% 15%, rgba(255,107,53,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .header{
+      text-align:center;
+      position:relative;
+      z-index:1;
+    }
+    .logo{
+      font-family:'Orbitron',monospace;
+      font-size:26px;
+      font-weight:900;
+      letter-spacing:.6px;
+      background: linear-gradient(45deg, var(--gold), var(--orange), var(--gold));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow: 0 0 30px rgba(255,215,0,.12);
+    }
+    .tagline{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:400;
+    }
+
+    /* Brand logos */
+    .brand-logos{
+      margin-top:12px;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+    }
+    .brand-logo{
+      height:22px;
+      width:auto;
+      opacity:.92;
+      filter: drop-shadow(0 10px 25px rgba(0,0,0,.45));
+    }
+
+    /* Trust strip */
+    .trust-strip{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:14px;
+      position:relative;
+      z-index:1;
+    }
+    .trust-pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.25);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .trust-pill i{ color: var(--mint); }
+
+    /* Progress */
+    .progress-wrap{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius);
+      padding:14px 14px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+    .progress-container{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:relative;
+      gap:8px;
+    }
+    .progress-step{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--stroke);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      font-weight:700;
+      transition: all .25s ease;
+      z-index:2;
+    }
+    .progress-step.active{
+      background: linear-gradient(45deg, var(--gold), var(--orange));
+      color:#100a00;
+      border-color: transparent;
+      box-shadow: 0 0 0 6px rgba(255,215,0,.10), 0 14px 40px rgba(255,215,0,.18);
+    }
+    .progress-step.completed{
+      background: rgba(0,255,136,.90);
+      color:#001b10;
+      border-color: transparent;
+    }
+    .progress-line{
+      height:2px;
+      flex:1;
+      background: rgba(255,255,255,.12);
+      border-radius:99px;
+      z-index:1;
+      transition: all .25s ease;
+    }
+    .progress-line.active{
+      background: linear-gradient(90deg, var(--gold), var(--orange));
+      box-shadow: 0 0 18px rgba(255,215,0,.18);
+    }
+
+    /* Steps */
+    .step{ display:none; animation: slideIn .35s ease; }
+    .step.active{ display:block; }
+    @keyframes slideIn{
+      from{ opacity:0; transform: translateY(10px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    .step-content{
+      border:1px solid var(--stroke);
+      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius);
+      padding:18px 16px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Step wallpapers (inside card) */
+    .step-content::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: var(--step-bg) center/cover no-repeat;
+      opacity:.22;
+      filter: saturate(1.1) contrast(1.05);
+      transform: scale(1.05);
+      z-index:0;
+    }
+    .step-content::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 520px at 20% 0%, rgba(0,180,255,.20), transparent 60%),
+                  linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.70));
+      z-index:0;
+    }
+    .step-content > *{ position:relative; z-index:1; }
+
+    .step-title{
+      font-family:'Orbitron',monospace;
+      font-size:20px;
+      font-weight:800;
+      text-align:center;
+      margin-bottom:14px;
+      background: linear-gradient(45deg, var(--gold), var(--orange));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .subnote{
+      text-align:center;
+      color:var(--muted2);
+      font-size:12px;
+      margin-top:-6px;
+      margin-bottom:16px;
+    }
+
+    /* Packs */
+    .packs-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .pack-card{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      padding:16px 12px;
+      text-align:center;
+      cursor:pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .pack-card:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(260px 120px at 20% 0%, rgba(255,215,0,.10), transparent 60%),
+                  radial-gradient(260px 120px at 95% 20%, rgba(255,107,53,.10), transparent 60%);
+      pointer-events:none;
+      opacity:.0;
+      transition: opacity .2s ease;
+    }
+    .pack-card:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,215,0,.45);
+      box-shadow: 0 18px 35px rgba(0,0,0,.35);
+    }
+    .pack-card:hover:before{ opacity:1; }
+    .pack-card.selected{
+      border-color: rgba(255,215,0,.75);
+      background: linear-gradient(135deg, rgba(255,215,0,.12), rgba(255,107,53,.10));
+      box-shadow: 0 18px 45px rgba(255,215,0,.12);
+      transform: translateY(-3px);
+    }
+    .pack-uc{
+      font-family:'Orbitron',monospace;
+      font-size:18px;
+      font-weight:900;
+      color: var(--mint);
+      margin-bottom:6px;
+    }
+    .pack-price{
+      font-size:16px;
+      font-weight:800;
+      color: var(--gold);
+    }
+
+    /* Forms */
+    .form-group{ margin-bottom:14px; }
+    .form-label{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-weight:600;
+      margin-bottom:8px;
+      color: rgba(255,255,255,.85);
+      font-size:13px;
+    }
+    .form-input{
+      width:100%;
+      padding:14px 14px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:14px;
+      color:#fff;
+      font-size:15px;
+      transition: all .2s ease;
+      outline:none;
+    }
+    .form-input:focus{
+      border-color: rgba(255,215,0,.65);
+      box-shadow: 0 0 0 5px rgba(255,215,0,.12);
+      background: rgba(0,0,0,.28);
+    }
+    .form-input::placeholder{ color: rgba(255,255,255,.45); }
+
+    /* Payment */
+    .payment-section{ text-align:center; }
+    .pay-box{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      border-radius:16px;
+      padding:14px 12px;
+      margin-bottom:14px;
+    }
+    .upi-qr{
+      width:170px;
+      height:170px;
+      border-radius:14px;
+      margin:12px auto 8px;
+      display:none;
+      box-shadow: 0 16px 40px rgba(0,0,0,.55);
+    }
+    .upi-id{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:14px;
+      font-weight:800;
+      color: var(--gold);
+      word-break: break-all;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      padding:10px 10px;
+      border-radius:12px;
+      margin:10px 0 0;
+      display:none;
+    }
+
+    .hint{
+      color: var(--muted2);
+      font-size:12px;
+      margin-top:8px;
+      line-height:1.35;
+    }
+
+    /* Upload */
+    .file-upload-area{
+      border:2px dashed rgba(255,215,0,.65);
+      border-radius:16px;
+      padding:20px 14px;
+      text-align:center;
+      transition: all .2s ease;
+      cursor:pointer;
+      background: rgba(255,215,0,.07);
+      margin:14px 0 10px;
+    }
+    .file-upload-area:hover{
+      background: rgba(255,215,0,.12);
+      border-color: rgba(255,215,0,.95);
+    }
+    .file-upload-area.dragover{
+      border-color: rgba(0,255,136,.90);
+      background: rgba(0,255,136,.12);
+    }
+    #screenshotPreview{
+      max-width:100%;
+      max-height:210px;
+      border-radius:14px;
+      margin-top:12px;
+      display:none;
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    /* Buttons */
+    .btn-row{ display:flex; gap:10px; }
+    .btn{
+      padding:14px 14px;
+      border:none;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:800;
+      cursor:pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+      width:100%;
+      user-select:none;
+    }
+    .btn-primary{
+      background: linear-gradient(45deg, var(--gold), var(--orange));
+      color:#130a00;
+      box-shadow: 0 18px 40px rgba(255,215,0,.18);
+    }
+    .btn-primary:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 22px 55px rgba(255,215,0,.25);
+    }
+    .btn-secondary{
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .btn-secondary:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,215,0,.35);
+    }
+    .btn:disabled{
+      opacity:.50;
+      cursor:not-allowed;
+      transform:none !important;
+      box-shadow:none !important;
+    }
+
+    /* Success */
+    .success-screen{ text-align:center; padding:30px 10px 10px; }
+    .success-icon{
+      font-size:70px;
+      color: var(--mint);
+      margin-bottom:12px;
+      filter: drop-shadow(0 20px 40px rgba(0,255,136,.12));
+    }
+    .success-title{
+      font-size:22px;
+      font-weight:900;
+      margin-bottom:8px;
+      color: var(--mint);
+    }
+    .success-text{
+      color: var(--muted);
+      font-size:14px;
+      line-height:1.45;
+      margin-bottom:16px;
+    }
+
+    @media (max-width:480px){
+      .container{ padding:14px; }
+      .logo{ font-size:24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader" class="preloader">
+    <div class="loader-wrap">
+      <div class="loader-logo"></div>
+      <div class="loader-ring"></div>
+      <div class="loader-text">Loading...</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="top-card">
+      <div class="header">
+        <h1 class="logo">Millionaire YT UC</h1>
+        <p class="tagline">Premium BGMI UC • Fast delivery experience</p>
+
+        <div class="brand-logos">
+          <img src="krafton.png" alt="KRAFTON logo" class="brand-logo">
+          <img src="bgmi.png" alt="BATTLEGROUNDS MOBILE INDIA logo" class="brand-logo">
+        </div>
+
+        <div class="trust-strip">
+          <div class="trust-pill"><i class="fa-solid fa-shield"></i><span>Secure UPI</span></div>
+          <div class="trust-pill"><i class="fa-solid fa-bolt"></i><span>Quick processing</span></div>
+          <div class="trust-pill"><i class="fa-solid fa-star"></i><span>Trusted by gamers</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-container">
+        <div class="progress-step active" data-step="1">1</div>
+        <div class="progress-line" id="line1"></div>
+        <div class="progress-step" data-step="2">2</div>
+        <div class="progress-line" id="line2"></div>
+        <div class="progress-step" data-step="3">3</div>
+        <div class="progress-line" id="line3"></div>
+        <div class="progress-step" data-step="4">4</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step1" class="step active">
+      <div class="step-content">
+        <h2 class="step-title">Select UC Pack</h2>
+        <p class="subnote">Choose a pack to continue</p>
+
+        <div class="packs-grid" id="packsGrid">
+          <div class="pack-card" data-uc="60" data-price="40">
+            <div class="pack-uc">60 UC</div>
+            <div class="pack-price">₹40</div>
+          </div>
+
+          <div class="pack-card" data-uc="325" data-price="220">
+            <div class="pack-uc">325 UC</div>
+            <div class="pack-price">₹220</div>
+          </div>
+
+          <div class="pack-card" data-uc="3850" data-price="1540">
+            <div class="pack-uc">3850 UC</div>
+            <div class="pack-price">₹1540</div>
+          </div>
+
+          <div class="pack-card" data-uc="8100" data-price="2430">
+            <div class="pack-uc">8100 UC</div>
+            <div class="pack-price">₹2430</div>
+          </div>
+
+          <div class="pack-card" data-uc="16200" data-price="4100">
+            <div class="pack-uc">16200 UC</div>
+            <div class="pack-price">₹4100</div>
+          </div>
+
+          <div class="pack-card" data-uc="32400" data-price="7800">
+            <div class="pack-uc">32400 UC</div>
+            <div class="pack-price">₹7800</div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="next1" disabled>Continue</button>
+        <p class="hint">Tip: Double-check UC pack before continuing.</p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="step">
+      <div class="step-content">
+        <h2 class="step-title">Enter Details</h2>
+        <p class="subnote">Details must be correct for smooth delivery</p>
+
+        <div class="form-group">
+          <label class="form-label">Selected Pack <span id="selectedPackDisplay" style="color:rgba(255,255,255,.75); font-weight:700;">-</span></label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">BGMI UID (10 digits)</label>
+          <input type="tel" class="form-input" id="uid" placeholder="1234567890" maxlength="10" inputmode="numeric">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">In-Game Name (IGN)</label>
+          <input type="text" class="form-input" id="ign" placeholder="Your IGN">
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-secondary" id="back2">Back</button>
+          <button type="button" class="btn btn-primary" id="next2" disabled>Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" class="step">
+      <div class="step-content">
+        <h2 class="step-title">Payment</h2>
+        <p class="subnote">Pay the exact amount via UPI</p>
+
+        <div class="pay-box payment-section">
+          <div style="color:rgba(255,255,255,.8); font-weight:800;">
+            Amount: <span id="paymentAmount" style="color:var(--gold);">₹0</span>
+          </div>
+          <img src="upi-qr.jpg" alt="UPI QR" class="upi-qr" id="upiQr">
+          <div class="upi-id" id="upiId">adiptl@ptyes</div>
+          <p class="hint">Use any UPI app. Keep a screenshot after payment.</p>
+          <p class="hint" style="margin-top:6px;">Note: Form request max size 8MB, so screenshot compress rakho.</p>
+        </div>
+
+        <form id="orderForm"
+              name="uc-order"
+              method="POST"
+              enctype="multipart/form-data"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field">
+
+          <input type="hidden" name="form-name" value="uc-order">
+          <p style="display:none;">
+            <label>Don’t fill this out: <input name="bot-field"></label>
+          </p>
+
+          <input type="hidden" name="pack_uc" id="pack_uc">
+          <input type="hidden" name="pack_price" id="pack_price">
+          <input type="hidden" name="bgmi_uid" id="bgmi_uid">
+          <input type="hidden" name="ign" id="ign_field">
+          <input type="hidden" name="time" id="time_field">
+
+          <div class="file-upload-area" id="uploadArea">
+            <i class="fas fa-cloud-upload-alt" style="font-size:44px; color:var(--gold); margin-bottom:10px;"></i>
+            <p style="font-weight:800;">Upload payment screenshot</p>
+            <p style="color:rgba(255,255,255,.6); font-size:12px; margin-top:4px;">JPG/PNG • Max 5MB</p>
+
+            <input type="file" id="screenshot" name="payment_screenshot" accept="image/*" style="display:none;">
+            <img id="screenshotPreview" alt="Preview">
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary" id="back3">Back</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Place Order</button>
+          </div>
+
+          <div class="trust-strip" style="margin-top:12px;">
+            <div class="trust-pill"><i class="fa-solid fa-lock"></i><span>Privacy protected</span></div>
+            <div class="trust-pill"><i class="fa-solid fa-circle-check"></i><span>Order confirmation screen</span></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="step4" class="step">
+      <div class="step-content success-screen">
+        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+        <h2 class="success-title">Order received</h2>
+        <p class="success-text">Thanks! The order has been placed successfully. Keep your payment screenshot safe until delivery is completed.</p>
+        <button type="button" class="btn btn-primary" onclick="location.reload()">New Order</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Preloader hide after full load
+    window.addEventListener('load', () => {
+      const p = document.getElementById('preloader');
+      if (!p) return;
+      p.classList.add('hide');
+      setTimeout(() => p.remove(), 450);
+    });
+
+    let currentStep = 1;
+    let selectedPack = null;
+    let screenshotFile = null;
+
+    function applyStepWallpaper(step){
+      const map = {
+        1: "bg1.jpg",
+        2: "bg2.jpg",
+        3: "bg3.jpg",
+        4: "bg4.jpg"
+      };
+      const url = map[step] || map[1];
+      document.documentElement.style.setProperty('--step-bg', `url('${url}')`);
+    }
+
+    applyStepWallpaper(1);
+    updateProgress();
+
+    // STEP 1: Pack selection
+    document.querySelectorAll('.pack-card').forEach(card => {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedPack = { uc: this.dataset.uc, price: this.dataset.price };
+        document.getElementById('next1').disabled = false;
+      });
+    });
+
+    document.getElementById('next1').onclick = function() {
+      if (!selectedPack) return;
+      document.getElementById('selectedPackDisplay').textContent = `${selectedPack.uc} UC • ₹${selectedPack.price}`;
+      showStep(2);
+    };
+
+    // STEP 2 validation
+    document.getElementById('uid').oninput = validateStep2;
+    document.getElementById('ign').oninput = validateStep2;
+
+    function validateStep2() {
+      const uid = document.getElementById('uid').value;
+      const ign = document.getElementById('ign').value;
+      document.getElementById('next2').disabled = !(uid.length === 10 && ign.trim());
+    }
+
+    document.getElementById('next2').onclick = function() {
+      document.getElementById('paymentAmount').textContent = `₹${selectedPack.price}`;
+      document.getElementById('upiQr').style.display = 'block';
+      document.getElementById('upiId').style.display = 'block';
+      showStep(3);
+    };
+
+    // Back buttons
+    document.getElementById('back2').onclick = () => showStep(1);
+    document.getElementById('back3').onclick = () => showStep(2);
+
+    // File upload
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('screenshot');
+    const preview = document.getElementById('screenshotPreview');
+    const submitBtn = document.getElementById('submitBtn');
+
+    uploadArea.onclick = () => fileInput.click();
+    fileInput.onchange = handleFile;
+
+    ['dragenter','dragover','dragleave','drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e){ e.preventDefault(); e.stopPropagation(); }
+
+    ['dragenter','dragover'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+    });
+
+    ['dragleave','drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+    });
+
+    uploadArea.ondrop = (e) => {
+      fileInput.files = e.dataTransfer.files;
+      handleFile({ target: fileInput });
+    };
+
+    function handleFile(e) {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/') && file.size < 5 * 1024 * 1024) {
+        screenshotFile = file;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          preview.src = evt.target.result;
+          preview.style.display = 'block';
+          submitBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        screenshotFile = null;
+        preview.src = "";
+        preview.style.display = "none";
+        submitBtn.disabled = true;
+        alert("Only image files under 5MB allowed.");
+      }
+    }
+
+    // Submit (AJAX) - Netlify Forms
+    const orderForm = document.getElementById('orderForm');
+    orderForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!selectedPack) return alert("Select a pack first.");
+      if (!screenshotFile) return alert("Upload payment screenshot.");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      document.getElementById('pack_uc').value = selectedPack.uc;
+      document.getElementById('pack_price').value = selectedPack.price;
+      document.getElementById('bgmi_uid').value = document.getElementById('uid').value.trim();
+      document.getElementById('ign_field').value = document.getElementById('ign').value.trim();
+      document.getElementById('time_field').value = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+      const formData = new FormData(orderForm);
+
+      try {
+        const res = await fetch('/', { method: 'POST', body: formData });
+        if (res.ok) {
+          showStep(4);
+        } else {
+          alert("Submit failed. Please try again.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Place Order';
+        }
+      } catch (err) {
+        alert("Network error. Please try again.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Place Order';
+      }
+    });
+
+    function showStep(step) {
+      applyStepWallpaper(step);
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step${step}`).classList.add('active');
+      currentStep = step;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress() {
+      const steps = document.querySelectorAll('.progress-step');
+      const lines = [document.getElementById('line1'), document.getElementById('line2'), document.getElementById('line3')];
+
+      steps.forEach((stepEl, idx) => {
+        stepEl.classList.toggle('completed', idx < currentStep - 1);
+        stepEl.classList.toggle('active', idx === currentStep - 1);
+      });
+
+      lines.forEach((lineEl, idx) => {
+        lineEl.classList.toggle('active', idx < currentStep - 1);
+      });
+    }
+  </script>
+</body>
+</html>
